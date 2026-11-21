@@ -1,6 +1,6 @@
 [
   {
-    "id": "lead_1795230949364_40l5nl",
+    "id": "lead_1795233782583_fieplq",
     "name": "Mateo Rodríguez",
     "businessName": "Climas y Plomería del Norte",
     "email": "mateo@climasnorte.com",
@@ -8,13 +8,13 @@
     "priority": "Showing customers when their technician will arrive",
     "notes": "Nuestros clientes siempre llaman para preguntar a qué hora llega el técnico.",
     "language": "es",
-    "submittedAt": "2026-11-21T03:15:49.364Z",
-    "formattedDate": "Nov 21, 2026, 3:15 AM UTC",
+    "submittedAt": "2026-11-21T04:03:02.583Z",
+    "formattedDate": "Nov 21, 2026, 4:03 AM UTC",
     "userAgent": "unknown",
     "ip": "127.0.0.1"
   },
   {
-    "id": "lead_1795230949349_86m34f",
+    "id": "lead_1795233782568_vo7oqe",
     "name": "Marcus Vance",
     "businessName": "Lone Star Heating & Air",
     "email": "marcus@lonestarair.com",
@@ -22,8 +22,8 @@
     "priority": "Answering calls and messages",
     "notes": "We miss about 25 calls a week during hot Texas summer afternoons.",
     "language": "en",
-    "submittedAt": "2026-11-21T03:15:49.349Z",
-    "formattedDate": "Nov 21, 2026, 3:15 AM UTC",
+    "submittedAt": "2026-11-21T04:03:02.568Z",
+    "formattedDate": "Nov 21, 2026, 4:03 AM UTC",
     "userAgent": "unknown",
     "ip": "127.0.0.1"
   }

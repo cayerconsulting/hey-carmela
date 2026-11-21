@@ -170,9 +170,9 @@ function parseRequestBody(req) {
 }
 
 /**
- * HTTP Server
+ * HTTP Server Request Handler
  */
-const server = http.createServer(async (req, res) => {
+const requestHandler = async (req, res) => {
   const urlObj = new URL(req.url, `http://${req.headers.host || "localhost"}`);
   const pathname = urlObj.pathname;
 
@@ -340,7 +340,9 @@ const server = http.createServer(async (req, res) => {
     const stream = fs.createReadStream(filePath);
     stream.pipe(res);
   });
-});
+};
+
+const server = http.createServer(requestHandler);
 
 if (require.main === module) {
   server.listen(SITE_CONFIG.port, () => {
@@ -353,4 +355,13 @@ if (require.main === module) {
   });
 }
 
-module.exports = { server, SITE_CONFIG, readLeads, writeLeads, validateLeadSubmission };
+function mainHandler(req, res) {
+  return requestHandler(req, res);
+}
+mainHandler.server = server;
+mainHandler.SITE_CONFIG = SITE_CONFIG;
+mainHandler.readLeads = readLeads;
+mainHandler.writeLeads = writeLeads;
+mainHandler.validateLeadSubmission = validateLeadSubmission;
+
+module.exports = mainHandler;

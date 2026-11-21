@@ -1,6 +1,10 @@
 {
   "version": 2,
+  "outputDirectory": "public",
+  "cleanUrls": true,
   "rewrites": [
-    { "source": "/inbox", "destination": "/inbox.html" }
+    { "source": "/inbox", "destination": "/inbox.html" },
+    { "source": "/api/leads", "destination": "/api/leads" },
+    { "source": "/api/config", "destination": "/api/config" }
   ]
 }
