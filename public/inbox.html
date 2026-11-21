@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hey Carmela | Private Lead Inbox</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background-color: var(--color-warm-ivory);
+      color: var(--color-deep-blue);
+    }
+    .inbox-header-wrap {
+      background-color: var(--color-deep-blue);
+      color: var(--color-warm-ivory);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1.75rem 0;
+      margin-bottom: 2rem;
+    }
+    .inbox-top-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .inbox-brand-row {
+      display: flex;
+      align-items: center;
+    }
+    @media (min-width: 768px) {
+      .inbox-top-bar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+    .inbox-title-group h1 {
+      font-family: var(--font-display);
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--color-warm-ivory);
+      letter-spacing: -0.02em;
+    }
+    .inbox-title-group p {
+      color: var(--color-text-ivory-muted);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .auto-refresh-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.8rem;
+      color: var(--color-amber-light);
+      background: rgba(245, 158, 11, 0.15);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    .auto-dot {
+      width: 6px;
+      height: 6px;
+      background-color: var(--color-amber-bright);
+      border-radius: 50%;
+      animation: pulseAuto 2s infinite;
+    }
+    @keyframes pulseAuto {
+      0% { opacity: 0.4; }
+      50% { opacity: 1; }
+      100% { opacity: 0.4; }
+    }
+    .inbox-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .btn-ivory-outline {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--color-warm-ivory);
+      padding: 0.55rem 1rem;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.15s ease;
+    }
+    .btn-ivory-outline:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+    /* Stats grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2.25rem;
+    }
+    .stat-card {
+      background-color: #FFFFFF;
+      border: 1px solid var(--color-warm-ivory-border);
+      border-radius: var(--radius-lg);
+      padding: 1.35rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-amber-hover);
+      margin-bottom: 0.4rem;
+    }
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 2.15rem;
+      font-weight: 700;
+      color: var(--color-deep-blue);
+      line-height: 1.1;
+    }
+    .stat-sub {
+      font-size: 0.825rem;
+      color: var(--color-text-muted);
+      margin-top: 0.35rem;
+    }
+    /* Table Container */
+    .table-container {
+      background-color: #FFFFFF;
+      border: 1px solid var(--color-warm-ivory-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+      overflow-x: auto;
+      margin-bottom: 4.5rem;
+    }
+    .leads-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+    .leads-table th {
+      background-color: var(--color-warm-ivory-subtle);
+      padding: 1.1rem 1.25rem;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-deep-blue);
+      border-bottom: 1px solid var(--color-warm-ivory-border);
+    }
+    .leads-table td {
+      padding: 1.25rem;
+      border-bottom: 1px solid var(--color-warm-ivory-border);
+      vertical-align: top;
+      color: var(--color-deep-blue);
+    }
+    .leads-table tr:last-child td {
+      border-bottom: none;
+    }
+    .leads-table tr:hover td {
+      background-color: var(--color-warm-ivory);
+    }
+    .badge-lang {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+    }
+    .badge-en {
+      background-color: #E0F2FE;
+      color: #0369A1;
+      border: 1px solid #BAE6FD;
+    }
+    .badge-es {
+      background-color: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #FDE68A;
+    }
+    .priority-badge {
+      display: inline-block;
+      background-color: var(--color-warm-ivory-subtle);
+      color: var(--color-deep-blue);
+      font-weight: 600;
+      font-size: 0.825rem;
+      padding: 4px 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-warm-ivory-border);
+    }
+    .lead-notes-text {
+      color: var(--color-text-muted);
+      font-style: italic;
+      font-size: 0.85rem;
+      max-width: 250px;
+      line-height: 1.4;
+    }
+    .empty-state {
+      padding: 4rem 1.5rem;
+      text-align: center;
+      color: var(--color-text-muted);
+    }
+
+    /* ==========================================================================
+       Hey Carmela Tools Grid Section
+       ========================================================================== */
+    .tools-section {
+      margin-bottom: 5rem;
+    }
+    .tools-header {
+      margin-bottom: 2rem;
+    }
+    .tools-heading {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-deep-blue);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.4rem;
+    }
+    .tools-subheading {
+      font-size: 1rem;
+      color: var(--color-text-muted);
+    }
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .tool-card {
+      background-color: #FFFFFF;
+      border: 1px solid var(--color-warm-ivory-border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .tool-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--color-amber-light);
+    }
+    .tool-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background-color: var(--color-amber-soft);
+      color: var(--color-amber-hover);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+    .tool-card-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--color-deep-blue);
+      margin-bottom: 0.6rem;
+      line-height: 1.3;
+    }
+    .tool-card-desc {
+      font-size: 0.925rem;
+      color: var(--color-text-muted);
+      line-height: 1.55;
+    }
+  </style>
+</head>
+<body class="theme-carmela">
+  <div class="inbox-header-wrap">
+    <div class="container inbox-top-bar">
+      <div class="inbox-brand-row">
+        <a href="/" class="brand-logo" aria-label="Hey Carmela Home">
+          <span class="logo-mark">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 2L3 9V20C3 20.5523 3.44772 21 4 21H20C20.5523 21 21 20.5523 21 20V9L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9 21V12H15V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="logo-text">Hey Carmela</span>
+        </a>
+      </div>
+
+      <div class="inbox-title-group">
+        <h1>Private Lead Inbox</h1>
+        <p>
+          Real-time demo requests collected from the Hey Carmela landing page.
+          <span class="auto-refresh-indicator">
+            <span class="auto-dot"></span> Auto-refreshes every 15s
+          </span>
+        </p>
+      </div>
+      <div class="inbox-actions">
+        <a href="/" class="btn-ivory-outline" style="font-weight: 700; background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.3);">
+          🏠 ← Back to Homepage
+        </a>
+        <button id="refresh-btn" class="btn-ivory-outline">
+          ↻ Refresh
+        </button>
+        <a href="/api/leads?format=csv" class="btn btn-amber btn-sm">
+          ↓ Export CSV
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Stats Row -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Demo Requests</div>
+        <div class="stat-value" id="stat-total">0</div>
+        <div class="stat-sub">All-time leads captured</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">English (EN)</div>
+        <div class="stat-value" id="stat-en">0</div>
+        <div class="stat-sub" id="stat-en-pct">0% of total</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Spanish (ES)</div>
+        <div class="stat-value" id="stat-es">0</div>
+        <div class="stat-sub" id="stat-es-pct">0% of total</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Top Requested Capability</div>
+        <div class="stat-value" style="font-size: 1.15rem; line-height: 1.3; margin-top: 0.35rem;" id="stat-top-priority">—</div>
+        <div class="stat-sub" id="stat-top-count">0 requests</div>
+      </div>
+    </div>
+
+    <!-- Table Container -->
+    <div class="table-container">
+      <table class="leads-table">
+        <thead>
+          <tr>
+            <th>Date & Time (UTC)</th>
+            <th>Language</th>
+            <th>Contact Name & Email</th>
+            <th>Business Name</th>
+            <th>Help Needed First (Priority)</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="leads-tbody">
+          <tr>
+            <td colspan="6" class="empty-state">Loading leads...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Hey Carmela Tools Section -->
+    <section class="tools-section" aria-labelledby="tools-heading">
+      <div class="tools-header">
+        <h2 id="tools-heading" class="tools-heading">Hey Carmela tools</h2>
+        <p class="tools-subheading">Core modular capabilities included in the Hey Carmela business assistant package.</p>
+      </div>
+
+      <div class="tools-grid">
+        <!-- 1. Calls, texts & WhatsApp -->
+        <article class="tool-card">
+          <div class="tool-icon-wrap" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <h3 class="tool-card-title">Calls, texts & WhatsApp</h3>
+          <p class="tool-card-desc">Answers incoming phone calls, SMS texts, and WhatsApp messages around the clock so you never lose emergency service jobs.</p>
+        </article>
+
+        <!-- 2. AI receptionist & staff handoff -->
+        <article class="tool-card">
+          <div class="tool-icon-wrap" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <h3 class="tool-card-title">AI receptionist & staff handoff</h3>
+          <p class="tool-card-desc">Handles routine customer questions, gathers job and address details, and smoothly loops in your staff when a person is needed.</p>
+        </article>
+
+        <!-- 3. Calendar (Separate card: shows availability) -->
+        <article class="tool-card">
+          <div class="tool-icon-wrap" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          </div>
+          <h3 class="tool-card-title">Calendar</h3>
+          <p class="tool-card-desc">Shows live technician availability, working hours, and service territories in real time to prevent double bookings.</p>
+        </article>
+
+        <!-- 4. Scheduling & reminders (Separate card: books and moves jobs) -->
+        <article class="tool-card">
+          <div class="tool-icon-wrap" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <h3 class="tool-card-title">Scheduling & reminders</h3>
+          <p class="tool-card-desc">Books and moves jobs on the calendar while dispatching automated text reminders to keep customers informed and eliminate no-shows.</p>
+        </article>
+
+        <!-- 5. Technician tracking -->
+        <article class="tool-card">
+          <div class="tool-icon-wrap" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+            </svg>
+          </div>
+          <h3 class="tool-card-title">Technician tracking</h3>
+          <p class="tool-card-desc">Sends customers a live GPS tracking link with an accurate estimated arrival time as soon as their technician heads out.</p>
+        </article>
+
+        <!-- 6. Payments (Separate card: tracks money received) -->
+        <article class="tool-card">
+          <div class="tool-icon-wrap" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="1" x2="12" y2="23"/>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          <h3 class="tool-card-title">Payments</h3>
+          <p class="tool-card-desc">Tracks money received, collects customer deposits before truck dispatch, and logs payment methods securely.</p>
+        </article>
+
+        <!-- 7. Billing (Separate card: handles invoices and balances) -->
+        <article class="tool-card">
+          <div class="tool-icon-wrap" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <line x1="2" y1="10" x2="22" y2="10"/>
+            </svg>
+          </div>
+          <h3 class="tool-card-title">Billing</h3>
+          <p class="tool-card-desc">Handles post-job invoices and balances, sends itemized receipts, and delivers polite automated follow-ups until paid.</p>
+        </article>
+
+        <!-- 8. Lead tracking -->
+        <article class="tool-card">
+          <div class="tool-icon-wrap" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
+          <h3 class="tool-card-title">Lead tracking</h3>
+          <p class="tool-card-desc">Records every incoming prospect with their selected priority, language, and date to streamline demo preparation and follow-up.</p>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    async function loadInbox() {
+      try {
+        const res = await fetch('/api/leads');
+        const data = await res.json();
+        const leads = data.leads || [];
+
+        // Update stats
+        const total = leads.length;
+        document.getElementById('stat-total').textContent = total;
+
+        const countEn = leads.filter(l => l.language === 'en').length;
+        const countEs = leads.filter(l => l.language === 'es').length;
+        document.getElementById('stat-en').textContent = countEn;
+        document.getElementById('stat-es').textContent = countEs;
+
+        document.getElementById('stat-en-pct').textContent = total > 0 ? Math.round((countEn / total) * 100) + '% of total' : '0%';
+        document.getElementById('stat-es-pct').textContent = total > 0 ? Math.round((countEs / total) * 100) + '% of total' : '0%';
+
+        // Top Priority calculation
+        const priorityCounts = {};
+        leads.forEach(l => {
+          const p = l.priority || 'Unspecified';
+          priorityCounts[p] = (priorityCounts[p] || 0) + 1;
+        });
+        let topP = '—';
+        let topCount = 0;
+        for (const [p, c] of Object.entries(priorityCounts)) {
+          if (c > topCount) {
+            topCount = c;
+            topP = p;
+          }
+        }
+        document.getElementById('stat-top-priority').textContent = topP;
+        document.getElementById('stat-top-count').textContent = `${topCount} requests`;
+
+        // Render rows
+        const tbody = document.getElementById('leads-tbody');
+        if (leads.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6" class="empty-state">No demo requests yet. Fill out the landing page intake form to see them appear here!</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = leads.map(lead => {
+          const langBadge = lead.language === 'es' 
+            ? '<span class="badge-lang badge-es">ES</span>' 
+            : '<span class="badge-lang badge-en">EN</span>';
+
+          const phoneMarkup = lead.phone ? `<div style="font-size: 0.8rem; color: #64748B;">📞 ${escapeHtml(lead.phone)}</div>` : '';
+          const notesMarkup = lead.notes 
+            ? `<div class="lead-notes-text">“${escapeHtml(lead.notes)}”</div>` 
+            : '<span style="color:#94A3B8;">—</span>';
+
+          const formattedTime = lead.formattedDate || new Date(lead.submittedAt).toUTCString();
+
+          return `
+            <tr>
+              <td style="white-space: nowrap; font-size: 0.85rem; color: #475569;">
+                ${escapeHtml(formattedTime)}
+              </td>
+              <td>${langBadge}</td>
+              <td>
+                <div style="font-weight: 700; color: #0B192C;">${escapeHtml(lead.name)}</div>
+                <div style="font-size: 0.85rem; color: #0284C7;"><a href="mailto:${escapeHtml(lead.email)}">${escapeHtml(lead.email)}</a></div>
+                ${phoneMarkup}
+              </td>
+              <td style="font-weight: 600;">${escapeHtml(lead.businessName)}</td>
+              <td>
+                <div class="priority-badge">${escapeHtml(lead.priority || 'General exploration')}</div>
+              </td>
+              <td>${notesMarkup}</td>
+            </tr>
+          `;
+        }).join('');
+      } catch (err) {
+        document.getElementById('leads-tbody').innerHTML = `
+          <tr><td colspan="6" class="empty-state" style="color: #DC2626;">Failed to load leads: ${escapeHtml(err.message)}</td></tr>
+        `;
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Manual refresh
+    document.getElementById('refresh-btn').addEventListener('click', loadInbox);
+    loadInbox();
+
+    // Auto-refresh every 15 seconds while visible
+    setInterval(() => {
+      if (!document.hidden) {
+        loadInbox();
+      }
+    }, 15000);
+  </script>
+</body>
+</html>

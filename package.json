@@ -1,0 +1,13 @@
+{
+  "name": "hey-carmela",
+  "version": "1.0.0",
+  "description": "Bilingual landing page & lead intake system for Hey Carmela AI business assistant",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test-leads.js"
+  },
+  "keywords": ["ai", "hvac", "home-services", "landing-page", "bilingual"],
+  "author": "",
+  "license": "ISC"
+}
